@@ -1,53 +1,24 @@
-# Protokit starter-kit
+# This is Mina Challenge 3, based on the Protokit Starter Kit 
 
-This repository is a monorepo aimed at kickstarting application chain development using the Protokit framework.
+The runtime for the mina challenge is in the file `packages/chain/src/messages.ts`
 
-## Quick start
+You can run the tests by running: 
 
-The monorepo contains 1 package and 1 app:
+` pnpm run test --filter=chain`
 
-- `packages/chain` contains everything related to your app-chain
-- `apps/web` contains a demo UI that connects to your locally hosted app-chain sequencer
+The test file is in `packages/chain/test/messages.test.ts`
 
-**Prerequisites:**
+You should see an test output like: 
 
-- Node.js v18
-- pnpm
-- nvm
-
-> If you're on windows, please use Docker until we find a more suitable solution to running the `@proto-kit/cli`. 
-> Run the following command and then proceed to "Running the sequencer & UI":
->
-> `docker run -it --rm -p 3000:3000 -p 8080:8080 -v %cd%:/starter-kit -w /starter-kit gplane/pnpm:node18 bash`
+![alt text](image.png)
 
 
-### Setup
+# Spy Master is worried about Privacy - Is he correct? 
 
-```zsh
-git clone https://github.com/proto-kit/starter-kit my-chain
-cd my-chain
+Yes, the messages are all being processed on-chain, they are NOT private. Everyone can read the messages. All the messages are Public inputs! 
 
-# ensures you have the right node.js version
-nvm use
-pnpm install
-```
+To solve it, we need to move the processing of messages off-chain. We can use a ZKProgram to let spies make off-chain private inputs from their local machine, and then verify the ZK program on-chain, after processing the messages off-chain as well.
 
-### Running the sequencer & UI
+This will also make the security code more secure. Right now, all the secutity codes are public too! 
 
-```zsh
-# starts both UI and sequencer locally
-pnpm dev
-
-# starts UI only
-pnpm dev -- --filter web
-# starts sequencer only
-pnpm dev -- --filter chain
-```
-
-### Running tests
-```zsh
-# run and watch tests for the `chain` package
-pnpm run test --filter=chain -- --watchAll
-```
-
-Navigate to `localhost:3000` to see the example UI, or to `localhost:8080/graphql` to see the GQL interface of the locally running sequencer.
+In the beginning, the spy recruiting part can also be done off-chain , so the security code for a specific spy will only be known by the guy recruiting the spy ( Spy Master). Spies with security codes can now do off-chain processing and submit the proof on-chain.

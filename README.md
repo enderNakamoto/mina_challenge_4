@@ -1,4 +1,4 @@
-# This is Mina Challenge 3, based on the Protokit Starter Kit 
+# This is Mina Challenge 4, based on the Protokit Starter Kit 
 
 The runtime for the mina challenge is in the file `packages/chain/src/secret_messages.ts`
 
@@ -9,8 +9,6 @@ You can run the tests by running:
 The test file is in `packages/chain/test/secret_messages.test.ts`
 
 You should see an test output like: 
-
-![alt text](image.png)
 
 
 # Privacy 

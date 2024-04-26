@@ -12,8 +12,11 @@ export const CONSTS = {
 
 export const ERRORS = {
     spyNotRecruited: "Spy not recruited yet, no spy with that id has been initialized",
-    codeMismatch: "Security code hash does not match",
+    codeMismatch: "Security code does not match",
     messageTooShort: "Message is less than 12 characters long",
     messageTooLong: "Message is more than 12 characters long",
-    messageNumber: "Message number is not greater than the last message number"
+    messageNumber: "Message number is not greater than the last message number",
+    onlyOneSpyMaster: "There can be only one master",
+    thereMustBeASpyMaster: "There must be a spy master to recruit spies",
+    onlySpyMasterCanRecruit: "Only the spy master can recruit spies"
   };

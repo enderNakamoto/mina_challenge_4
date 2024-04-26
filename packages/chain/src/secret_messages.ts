@@ -4,7 +4,7 @@ import {
     runtimeMethod, 
     RuntimeModule 
 } from "@proto-kit/module";
-import { StateMap, assert } from "@proto-kit/protocol";
+import { State, StateMap, assert } from "@proto-kit/protocol";
 import { Field, PublicKey } from "o1js";
 import { UInt64 } from "@proto-kit/library"
 
@@ -15,17 +15,37 @@ import { MessageProof } from "./messageProof";
 
 @runtimeModule()
 export class SecretMessages extends RuntimeModule<unknown> {
+
     // stored on-chain L2 states 
     @state() public spyDetails  = StateMap.from<Field, SpyInfo>(
         Field, 
         SpyInfo
     );
 
+    // address of the dude that recruits spies, and sets spy secrets
+    @state() public spyMaster = State.from<PublicKey>(PublicKey);
+
+    // make a spy master, and only change it if its blank
+    @runtimeMethod()
+    public setSpyMaster(): void {
+        const sender = this.transaction.sender.value;
+        const currentSpyMaster = this.spyMaster.get();
+        assert(currentSpyMaster.isSome.not(), ERRORS.onlyOneSpyMaster);
+        this.spyMaster.set(sender);
+    }
+
     @runtimeMethod()
     public recruitSpy(
         agentId: Field, 
         securityCodeHash: Field
     ): void {
+        // make sure the sender is the spy master
+        const sender = this.transaction.sender.value;
+        const curSpyMaster = this.spyMaster.get();
+        assert(curSpyMaster.isSome, ERRORS.thereMustBeASpyMaster);
+        assert(curSpyMaster.value.equals(sender), ERRORS.onlySpyMasterCanRecruit);
+
+        // set the spy details
         const spyInfo = new SpyInfo({ 
             lastMessageNumber: CONSTS.INITIAL_MESSAGE_NUMBER, 
             securityCodeHash: securityCodeHash,

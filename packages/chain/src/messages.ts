@@ -4,8 +4,8 @@ import {
     runtimeMethod, 
     RuntimeModule 
 } from "@proto-kit/module";
-import { State, StateMap, assert } from "@proto-kit/protocol";
-import { Field, PublicKey, Struct, Provable, Bool } from "o1js";
+import { StateMap, assert } from "@proto-kit/protocol";
+import { Field, Struct } from "o1js";
 
 export const LOWER_LIMIT = Field(100000000000);
 export const UPPER_LIMIT = Field(999999999999);

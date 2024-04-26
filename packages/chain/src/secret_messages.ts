@@ -14,7 +14,7 @@ import { MessageProof } from "./messageProof";
 
 
 @runtimeModule()
-export class Messages extends RuntimeModule<unknown> {
+export class SecretMessages extends RuntimeModule<unknown> {
     // stored on-chain L2 states 
     @state() public spyDetails  = StateMap.from<Field, SpyInfo>(
         Field, 
